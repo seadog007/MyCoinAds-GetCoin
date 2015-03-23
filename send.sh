@@ -3,7 +3,11 @@ ref=$2
 proxy=$3
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36'
 
+function clean_up {
+	rm cookie.*
+}
 
+trap "clean_up;exit" SIGTERM SIGINT SIGHUP
 
 curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA" -x "$proxy"
 ads_content=`curl -s -c cookie.$$ -b cookie.$$ "http://mycoinads.com/surfbtc.php?btcaddress=$self" -A "$UA" -H 'Referer: http://mycoinads.com/' -x "$proxy"`
