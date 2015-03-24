@@ -12,8 +12,9 @@ trap "clean_up;exit" SIGTERM SIGINT SIGHUP
 
 function retry {
 echo "retry"
-FailTime=0
-[ FailTime -lt "2" ] && main
+FailTime=$((FailTime+1))
+[ "$FailTime" -lt "2" ] && main
+exit 31
 }
 
 
@@ -56,7 +57,7 @@ if [ "$islocal" -gt 1 ] || [ "$islocal" -lt 0 ]
 then
   exit 30
 fi
-if [ "$islocal" -ge 1 ] && [ -z "$proxy" ]
+if [ "$islocal" -ne 1 ] && [ -z "$proxy" ]
 then
   exit 30
 fi
