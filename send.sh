@@ -5,7 +5,7 @@ proxy=$4
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36'
 
 function clean_up {
-	rm cookie.*
+rm cookie.*
 }
 trap "clean_up;exit" SIGTERM SIGINT SIGHUP
 
@@ -21,7 +21,20 @@ collect_path=`echo $ads_content | grep -oh "collectcredits.php?ad=[[:digit:]]\{1
 [ $islocal -ge 1 ] && collect_content=`curl -s -c cookie.$$ -b cookie.$$ "http://mycoinads.com/$collect_path" -A "$UA" | grep '( document )'`
 [ $islocal -ne 1 ] && collect_content=`curl -s -c cookie.$$ -b cookie.$$ "http://mycoinads.com/$collect_path" -A "$UA" -x "$proxy" | grep '( document )'`
 
-[ -z "$collect_path" ] && echo $ads_content && echo 'No more Ads' && exit 1
+# there are 3 problems
+# 空(網路問題)  not 下面
+# 沒廣告  grep 'We don't have any new ads to show you.'
+# ip被幹走  grep 'someone else from this ip is using MyCoinAds'
+# grep 誰? 哪個變數?
+
+if [ -z "$collect_path" ]
+then
+  echo $ads_content
+  [ -n "`echo "$ads_content" | grep 'have any new ads to show you.'`" ] && echo 'No more Ads' && clean_up && exit 1
+  [ -n "`echo "$ads_content" | grep 'someone else from this ip is using MyCoinAds'`" ] && echo 'Need Change IP' && clean_up && exit 2
+  exit 3
+fi
+
 
 hash=`echo $collect_content | grep -oh 'hash:"\w\{32\}"' | grep -oh '"\w\{32\}"' | sed 's/"//g'`
 id=`echo $collect_content | grep -oh 'id:"[[:digit:]]\{1,7\}"' | grep -oh '"[[:digit:]]\{1,7\}"' | sed 's/"//g'`
