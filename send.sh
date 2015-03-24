@@ -3,29 +3,21 @@ ref=$2
 islocal=$3
 proxy=$4
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36'
+FailTime=0
 
 function clean_up {
 rm cookie.*
 }
-trap "clean_up;exit" SIGTERM SIGINT SIGHUP 12 17
+trap "clean_up;exit" SIGTERM SIGINT SIGHUP
 
 function retry {
 echo "retry"
+FailTime=0
+[ FailTime -lt "2" ] && main
 }
-trap "retry" 31
 
-[ -z "$self" ] && 30
-[ -z "$ref" ] && exit 30
-[ -z "$islocal" ] && exit 30
-if [ "$islocal" -gt 1 ] || [ "$islocal" -lt 0 ]
-then
-  exit 30
-fi
-if [ "$islocal" -ge 1 ] && [ -z "$proxy" ]
-then
-  exit 30
-fi
 
+function main {
 [ $islocal -ge 1 ] && curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA"
 [ $islocal -ne 1 ] && curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA" -x "$proxy"
 
@@ -41,9 +33,9 @@ collect_path=`echo $ads_content | grep -oh "collectcredits.php?ad=[[:digit:]]\{1
 if [ -z "$collect_path" ]
 then
   echo $ads_content
-  [ -n "`echo "$ads_content" | grep 'have any new ads to show you.'`" ] && echo 'No more Ads' && exit 12
-  [ -n "`echo "$ads_content" | grep 'someone else from this ip is using MyCoinAds'`" ] && echo 'Need Change IP' && exit 17
-  echo 'Other Error' && exit 31
+  [ -n "`echo "$ads_content" | grep 'have any new ads to show you.'`" ] && echo 'No more Ads' && clean_up && exit 12
+  [ -n "`echo "$ads_content" | grep 'someone else from this ip is using MyCoinAds'`" ] && echo 'Need Change IP' && clean_up && exit 17
+  echo 'Other Error' && retry
 fi
 
 
@@ -54,5 +46,19 @@ btcaddr=`echo $collect_content | grep -oh 'btcaddress:"\w\{33,35\}"' | grep -oh 
 
 [ $islocal -ge 1 ] && echo `curl -s -c cookie.$$ -b cookie.$$ 'http://mycoinads.com/collectcredits.php' --data "verify=verified&hash=$hash&ad=$ad&id=$id&btcaddress=$btcaddr" -A "$UA" -H "Referer: http://mycoinads.com/$collect_path?ad=$ad&btcaddress=$btcaddr&hash=$hash&id=$id" -H 'Content-Type: application/x-www-form-urlencoded' -H 'Origin: http://mycoinads.com' -H 'X-Requested-With: XMLHttpRequest'`
 [ $islocal -ne 1 ] && echo `curl -s -c cookie.$$ -b cookie.$$ 'http://mycoinads.com/collectcredits.php' --data "verify=verified&hash=$hash&ad=$ad&id=$id&btcaddress=$btcaddr" -A "$UA" -H "Referer: http://mycoinads.com/$collect_path?ad=$ad&btcaddress=$btcaddr&hash=$hash&id=$id" -H 'Content-Type: application/x-www-form-urlencoded' -H 'Origin: http://mycoinads.com' -H 'X-Requested-With: XMLHttpRequest' -x "$proxy"`
-
 clean_up
+}
+
+[ -z "$self" ] && 30
+[ -z "$ref" ] && exit 30
+[ -z "$islocal" ] && exit 30
+if [ "$islocal" -gt 1 ] || [ "$islocal" -lt 0 ]
+then
+  exit 30
+fi
+if [ "$islocal" -ge 1 ] && [ -z "$proxy" ]
+then
+  exit 30
+fi
+
+main
