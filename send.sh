@@ -1,3 +1,10 @@
+
+# 12: No Ads
+# 17: Need Change IP
+# 30: Argument Wrong
+# 31: Other Error ( almost proxy problem )
+
+
 self=$1
 ref=$2
 islocal=$3
