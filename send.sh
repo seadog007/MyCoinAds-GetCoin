@@ -7,8 +7,24 @@ UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, li
 function clean_up {
 rm cookie.*
 }
-trap "clean_up;exit" SIGTERM SIGINT SIGHUP
+trap "clean_up;exit" SIGTERM SIGINT SIGHUP 12 17
 
+function retry {
+echo "retry"
+}
+trap "retry" 31
+
+[ -z "$self" ] && 30
+[ -z "$ref" ] && exit 30
+[ -z "$islocal" ] && exit 30
+if [ "$islocal" -gt 1 ] || [ "$islocal" -lt 0 ]
+then
+  exit 30
+fi
+if [ "$islocal" -ge 1 ] && [ -z "$proxy" ]
+then
+  exit 30
+fi
 
 [ $islocal -ge 1 ] && curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA"
 [ $islocal -ne 1 ] && curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA" -x "$proxy"
@@ -21,18 +37,13 @@ collect_path=`echo $ads_content | grep -oh "collectcredits.php?ad=[[:digit:]]\{1
 [ $islocal -ge 1 ] && collect_content=`curl -s -c cookie.$$ -b cookie.$$ "http://mycoinads.com/$collect_path" -A "$UA" | grep '( document )'`
 [ $islocal -ne 1 ] && collect_content=`curl -s -c cookie.$$ -b cookie.$$ "http://mycoinads.com/$collect_path" -A "$UA" -x "$proxy" | grep '( document )'`
 
-# there are 3 problems
-# 空(網路問題)  not 下面
-# 沒廣告  grep 'We don't have any new ads to show you.'
-# ip被幹走  grep 'someone else from this ip is using MyCoinAds'
-# grep 誰? 哪個變數?
 
 if [ -z "$collect_path" ]
 then
   echo $ads_content
-  [ -n "`echo "$ads_content" | grep 'have any new ads to show you.'`" ] && echo 'No more Ads' && clean_up && exit 1
-  [ -n "`echo "$ads_content" | grep 'someone else from this ip is using MyCoinAds'`" ] && echo 'Need Change IP' && clean_up && exit 2
- clean_up && exit 3
+  [ -n "`echo "$ads_content" | grep 'have any new ads to show you.'`" ] && echo 'No more Ads' && exit 12
+  [ -n "`echo "$ads_content" | grep 'someone else from this ip is using MyCoinAds'`" ] && echo 'Need Change IP' && exit 17
+  echo 'Other Error' && exit 31
 fi
 
 
