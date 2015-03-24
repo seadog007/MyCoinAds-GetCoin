@@ -32,7 +32,7 @@ then
   echo $ads_content
   [ -n "`echo "$ads_content" | grep 'have any new ads to show you.'`" ] && echo 'No more Ads' && clean_up && exit 1
   [ -n "`echo "$ads_content" | grep 'someone else from this ip is using MyCoinAds'`" ] && echo 'Need Change IP' && clean_up && exit 2
-  exit 3
+ clean_up && exit 3
 fi
 
 
@@ -44,4 +44,4 @@ btcaddr=`echo $collect_content | grep -oh 'btcaddress:"\w\{33,35\}"' | grep -oh 
 [ $islocal -ge 1 ] && echo `curl -s -c cookie.$$ -b cookie.$$ 'http://mycoinads.com/collectcredits.php' --data "verify=verified&hash=$hash&ad=$ad&id=$id&btcaddress=$btcaddr" -A "$UA" -H "Referer: http://mycoinads.com/$collect_path?ad=$ad&btcaddress=$btcaddr&hash=$hash&id=$id" -H 'Content-Type: application/x-www-form-urlencoded' -H 'Origin: http://mycoinads.com' -H 'X-Requested-With: XMLHttpRequest'`
 [ $islocal -ne 1 ] && echo `curl -s -c cookie.$$ -b cookie.$$ 'http://mycoinads.com/collectcredits.php' --data "verify=verified&hash=$hash&ad=$ad&id=$id&btcaddress=$btcaddr" -A "$UA" -H "Referer: http://mycoinads.com/$collect_path?ad=$ad&btcaddress=$btcaddr&hash=$hash&id=$id" -H 'Content-Type: application/x-www-form-urlencoded' -H 'Origin: http://mycoinads.com' -H 'X-Requested-With: XMLHttpRequest' -x "$proxy"`
 
-rm cookie.*
+clean_up
