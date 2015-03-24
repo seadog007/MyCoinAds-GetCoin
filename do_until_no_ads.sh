@@ -1,7 +1,9 @@
 self=$1
 ref='1N38jUyZhrbRPJrLKJHQ2aNVLKA4HmYSJW'
-proxy=$2
+islocal=$2
+proxy=$3
+
 until [ $? -eq 1 ]
 do
-	./send.sh $self $ref $proxy
+	./send.sh $self $ref $islocal $proxy
 done
