@@ -1,0 +1,2 @@
+curl -s "http://checkerproxy.net/`date -v -1d +%d-%m-%Y`" | grep -oh '<td class="proxy-ipport">\([[:digit:]]\{1,3\}[\.:]\)\{4\}[[:digit:]]\{2,5\}' | sed 's/<td class="proxy-ipport">//g' | sort -u | uniq | perl -MList::Util=shuffle -e 'print shuffle(<STDIN>);' >> proxylist
+curl -s "http://checkerproxy.net/`date -v -2d +%d-%m-%Y`" | grep -oh '<td class="proxy-ipport">\([[:digit:]]\{1,3\}[\.:]\)\{4\}[[:digit:]]\{2,5\}' | sed 's/<td class="proxy-ipport">//g' | sort -u | uniq | perl -MList::Util=shuffle -e 'print shuffle(<STDIN>);' >> proxylist2
