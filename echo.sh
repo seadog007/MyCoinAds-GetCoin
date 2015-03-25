@@ -1,6 +1,6 @@
 while true
 do
-	clear
+ 	clear
 	while read line
 	do
 		set -- "$line"
