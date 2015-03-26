@@ -8,14 +8,16 @@ laststatus=0
 until [ $laststatus -gt 0 ]
 do
 	./send.sh $self $ref $islocal $proxy
-  laststatus=$?
+	laststatus=$?
 done
-[ $laststatus -ge 17 ] || [ $laststatus -ge 31 ] && echo "$self Need to Change the proxy1"
-
-laststatus=0
-until [ $laststatus -gt 0 ]
+if [ $laststatus -ge 17 ] || [ $laststatus -ge 31 ]
+then
 do
-  ./send.sh $self $ref $islocal $proxy2
-  laststatus=$?
+	laststatus=0
+	until [ $laststatus -gt 0 ]
+	do
+		./send.sh $self $ref $islocal $proxy2
+		laststatus=$?
+	done
+	[ $laststatus -ge 17 ] || [ $laststatus -ge 31 ] && echo "$self Need to Change the proxys"
 done
-[ $laststatus -ge 17 ] || [ $laststatus -ge 31 ] && echo "$self Need to Change the proxy2"
