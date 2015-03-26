@@ -12,7 +12,6 @@ do
 done
 if [ $laststatus -ge 17 ] || [ $laststatus -ge 31 ]
 then
-do
 	laststatus=0
 	until [ $laststatus -gt 0 ]
 	do
@@ -20,4 +19,4 @@ do
 		laststatus=$?
 	done
 	[ $laststatus -ge 17 ] || [ $laststatus -ge 31 ] && echo "$self Need to Change the proxys"
-done
+fi
