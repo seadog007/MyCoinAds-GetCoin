@@ -4,9 +4,9 @@
 limit=100
 while read line
 do
-	set -- "$line"
+  set -- "$line"
   IFS=";"; declare -a Array=($*)
-  echo `jobs | wc -l`
+  #echo `jobs | wc -l`
   until [ `jobs | wc -l | sed 's/ //g'` -lt $limit ]
   do
     sleep 0.2

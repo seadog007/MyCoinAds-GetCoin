@@ -26,6 +26,8 @@ exit 31
 
 
 function main {
+
+sleep 3
 [ $islocal -ge 1 ] && curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA" --max-time 20
 [ $islocal -ne 1 ] && curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA" -x "$proxy" --max-time 20
 
