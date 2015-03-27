@@ -11,7 +11,7 @@ do
   do
     sleep 0.2
   done
-  [ -z "${Array[2]}" ] && ./do_until_no_ads.sh "${Array[1]}" 1 &
-  [ -n "${Array[2]}" ] && [ -n "${Array[3]}" ] && ./do_until_no_ads.sh "${Array[1]}" 0 "${Array[2]}" "${Array[3]}" &
+  [ -z "${Array[1]}" ] && ./do_until_no_ads.sh "${Array[0]}" 1 &
+  [ -n "${Array[1]}" ] && [ -n "${Array[2]}" ] && ./do_until_no_ads.sh "${Array[0]}" 0 "${Array[1]}" "${Array[2]}" &
 done < mergelist
 
