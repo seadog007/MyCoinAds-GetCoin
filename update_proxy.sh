@@ -7,8 +7,7 @@ do
 	line_num=$(($line_num + 1))
 	set -- "$line"
 	IFS=" "; declare -a Array=($*)
-	cat mergelist | sed "s/${Array[0]}.*/${Array[0]};$(sed -n $(($line_num * 2 - 1))p proxylist_backup);$(sed -n $(($line_num * 2 - 0))p proxylist_backup)/" > mergelist.x
-	rm mergelist
-	mv mergelist.x mergelist
-sleep 0.1
+	cat mergelist | sed "s/${Array[0]}.*/${Array[0]};`sed -n "$line_num"p proxylist`;`sed -n "$line_num"p proxylist2`/" > mergelist.x
+	#rm mergelist
+	#mv mergelist.x mergelist
 done < <(cat log.log | sort | uniq)
