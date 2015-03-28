@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm log.log
 # clear
 limit=100
 while read line
