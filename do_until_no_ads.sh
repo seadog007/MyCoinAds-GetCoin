@@ -18,5 +18,5 @@ then
 		./send.sh $self $ref $islocal $proxy2
 		laststatus=$?
 	done
-	[ $laststatus -ge 17 ] || [ $laststatus -ge 31 ] && echo "$self Need to Change the proxys" >> log.log
+	[ $laststatus -ge 17 ] || [ $laststatus -ge 31 ] && echo "$self Need to Change the proxys" >> ./logs/log
 fi

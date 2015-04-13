@@ -1,8 +1,8 @@
 #!/bin/bash
-rm mergelist
+rm ./list/mergelist
 i=1
 while read line
 do
-  echo "$line;`sed -n "$i"p proxylist`;`sed -n "$i"p proxylist2`" >> mergelist
+  echo "$line;`sed -n "$i"p ./list/proxylist`;`sed -n "$i"p ./list/proxylist2`" >> ./list/mergelist
   i=$((i + 1))
-done < addrlist
+done < ./list/addrlist

@@ -1,5 +1,5 @@
 #!/bin/bash
-cp mergelist mergelist.original
+cp ./list/mergelist ./list/mergelist.last
 clear
 line_num=0
 while read line
@@ -7,7 +7,7 @@ do
 	line_num=$(($line_num + 1))
 	set -- "$line"
 	IFS=" "; declare -a Array=($*)
-	cat mergelist | sed "s/${Array[0]}.*/${Array[0]};`sed -n "$line_num"p proxylist`;`sed -n "$line_num"p proxylist2`/" > mergelist.x
-	rm mergelist
-	mv mergelist.x mergelist
-done < <(cat log.log | sort | uniq)
+	cat ./list/mergelist | sed "s/${Array[0]}.*/${Array[0]};`sed -n "$line_num"p ./list/proxylist`;`sed -n "$line_num"p ./list/proxylist2`/" > ./list/mergelist.x
+	rm ./list/mergelist
+	mv ./list/mergelist.x ./list/mergelist
+done < <(cat ./logs/log | sort | uniq)

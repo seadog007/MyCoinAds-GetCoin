@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm log.log
+rm ./logs/log
 # clear
 limit=100
 while read line
@@ -14,5 +14,5 @@ do
   done
   [ -z "${Array[1]}" ] && ./do_until_no_ads.sh "${Array[0]}" 1 &
   [ -n "${Array[1]}" ] && [ -n "${Array[2]}" ] && ./do_until_no_ads.sh "${Array[0]}" 0 "${Array[1]}" "${Array[2]}" &
-done < mergelist
+done < ./list/mergelist
 

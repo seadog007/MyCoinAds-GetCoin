@@ -8,5 +8,5 @@ do
   #[ `echo "$this > 0" | bc` -eq 1 ] && echo $this
   [ `echo "$this > 0" | bc` -eq 1 ] && total=`echo "$this + $total" | bc`
   [ `echo "$this > 0" | bc` -eq 1 ] && echo "${Array[0]} : $total"
-done < mergelist
+done < ./list/mergelist
 sleep 3

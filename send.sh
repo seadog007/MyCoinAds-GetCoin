@@ -43,7 +43,7 @@ collect_path=`echo $ads_content | grep -oh "collectcredits.php?ad=[[:digit:]]\{1
 if [ -z "$collect_path" ]
 then
   # echo $ads_content
-  [ -n "`echo "$ads_content" | grep 'have any new ads to show you.'`" ] && echo 'No more Ads' >> /dev/null && clean_up && exit 12
+  [ -n "`echo "$ads_content" | grep 'have any new ads to show you.'`" ] && echo "$self" >> ./logs/no_more && clean_up && exit 12
   [ -n "`echo "$ads_content" | grep 'someone else from this ip is using MyCoinAds'`" ] && echo 'Need Change IP' >> /dev/null && clean_up && exit 17
   echo 'Other Error' >> /dev/null && retry
 fi
@@ -70,5 +70,6 @@ if [ "$islocal" -ne 1 ] && [ -z "$proxy" ]
 then
   exit 30
 fi
-
+#[ -n "$(grep $self ./logs/no_more)" ] && echo 'From Log Show No More Ads' && exit 12
+#[ -z "$(grep $self ./logs/no_more)" ] && echo 'Need to do'
 main
