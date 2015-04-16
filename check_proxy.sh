@@ -5,5 +5,5 @@ do
 	do
 		sleep 0.5
 	done
-	echo `curl -s http://orange.tw -x \"$line\" --max-time 10` &
+	echo `curl -s http://orange.tw -x$line --max-time 10` &
 done < ./list/proxylist

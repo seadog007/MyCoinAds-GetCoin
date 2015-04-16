@@ -30,7 +30,7 @@ function main {
 sleep 3
 [ $islocal -ge 1 ] && proxytest=`curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA" --max-time 20`
 [ $islocal -ne 1 ] && proxytest=`curl -s -o /dev/null -c cookie.$$ "http://mycoinads.com/?r=$ref" -A "$UA" -x "$proxy" --max-time 20`
-[ -z "$proxytest" ] && echo 'Other Error' >> /dev/null && retry
+[ -n "$proxytest" ] && echo 'Other Error' >> /dev/null && retry
 
 [ $islocal -ge 1 ] && ads_content=`curl -s -c cookie.$$ -b cookie.$$ "http://mycoinads.com/surfbtc.php?btcaddress=$self" -A "$UA" -H 'Referer: http://mycoinads.com/' --max-time 20`
 [ $islocal -ne 1 ] && ads_content=`curl -s -c cookie.$$ -b cookie.$$ "http://mycoinads.com/surfbtc.php?btcaddress=$self" -A "$UA" -H 'Referer: http://mycoinads.com/' -x "$proxy" --max-time 20`
