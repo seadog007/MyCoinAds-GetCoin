@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import bs4
 import re
 import requests
