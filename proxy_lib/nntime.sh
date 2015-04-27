@@ -1,4 +1,4 @@
-for i in {1..50}
+for i in {1..30}
 do
 	rep=`curl -s http://nntime.com/proxy-updated-\`[ $i -lt 10 ] && echo 0\`$i.htm | grep -oh '\(.=.;\)\{9\}.=.'`
 	content=`curl -s "http://nntime.com/proxy-updated-\`[ $i -lt 10 ] && echo 0\`$i.htm" | grep '<td><input type="checkbox" name="' | grep -oh '\([[:digit:]]\{1,3\}.\)\{4\}script type="text/javascript">document.write(.*)' | sed 's/<script type="text\/javascript">document.write(":"/:/' | sed 's/)//'`
