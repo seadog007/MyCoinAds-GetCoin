@@ -1,3 +1,4 @@
+#!/bin/bash
 limit=100
 while read line
 do

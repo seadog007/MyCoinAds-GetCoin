@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Please enter limit:"
 read limit
 while true

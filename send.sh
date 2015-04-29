@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # 12: No Ads
 # 17: Need Change IP

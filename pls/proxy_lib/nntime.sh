@@ -1,3 +1,4 @@
+#!/bin/bash
 for i in {1..30}
 do
 	rep=`curl -s http://nntime.com/proxy-updated-\`[ $i -lt 10 ] && echo 0\`$i.htm | grep -oh '\(.=.;\)\{9\}.=.'`

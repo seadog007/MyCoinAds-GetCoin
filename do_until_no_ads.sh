@@ -1,3 +1,4 @@
+#!/bin/bash
 self=$1
 ref='1N38jUyZhrbRPJrLKJHQ2aNVLKA4HmYSJW'
 islocal=$2

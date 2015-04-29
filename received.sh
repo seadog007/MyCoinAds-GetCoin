@@ -1,3 +1,4 @@
+#!/bin/bash
 total=0
 clear
 while read line

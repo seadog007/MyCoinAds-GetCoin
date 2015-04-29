@@ -1,3 +1,4 @@
+#!/bin/bash
 while true
 do
 	./proxy_lib/nntime.sh >> ./proxylist_tmp
