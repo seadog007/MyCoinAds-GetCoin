@@ -1,0 +1,1 @@
+# MyCoinAds_GetCoin
