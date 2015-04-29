@@ -11,5 +11,5 @@ do
 		[ `echo "$this > 0" | bc` -eq 1 ] && total=`echo "$this + $total" | bc`
 		[ `echo "$this > 0" | bc` -eq 1 ] && echo -e "${Array[0]}\t$total"
 	done < ./list/mergelist
-	echo $total >> ./logs/total
+	echo -e "`date '+%Y/%m/%d %H:%M'`\t$total" >> ./logs/total
 done
