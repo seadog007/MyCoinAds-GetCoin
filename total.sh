@@ -1,6 +1,6 @@
 #!/bin/bash
-while true
-do
+#while true
+#do
 	total=0
 	clear
 	while read line
@@ -13,4 +13,4 @@ do
 		[ `echo "$this > 0" | bc` -eq 1 ] && echo -e "${Array[0]}\t$total"
 	done < ./list/mergelist
 	echo -e "`date '+%Y/%m/%d %H:%M'`\t$total" >> ./logs/total
-done
+#done
